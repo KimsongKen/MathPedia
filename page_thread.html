@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Thread: <?php echo htmlspecialchars($thread_title); ?></title>
+        <link rel="stylesheet" type="text/css" href="sidebar.css">
+        <link rel="stylesheet" type="text/css" href="main-body.css">
+        <link rel="stylesheet" type="text/css" href="general_toggle_buttons.css">
+        
+        
+        <script src="general_popupwin.js"></script> 
+        <script src="popup_thread.js"></script> 
+        <script src="popup_login.js"></script> 
+        <script src="logout.js"></script>
+
+
+        <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+              tex2jax: {
+                inlineMath: [['$','$'], ['\\(','\\)']],
+                processEscapes: true
+              }
+            });
+          </script>
+    </head>
+
+    <body>
+        <!-- Sidebar -->
+
+
+        <!-- Main body -->
+        <div class="main-body">
+            <!-- load thread content -->
+            <h1> <?php echo htmlspecialchars($thread_title); ?> </h1>
+            <div id="thread_content">
+                <?php
+                echo $thread_content_html; 
+                ?>
+            </div>
+
+            <script>
+                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+                document.addEventListener("DOMContentLoaded", function() {
+                    var thread_content = document.getElementById("thread_content");
+                    if (window.MathJax) {
+                        MathJax.Hub.Queue(["Typeset", MathJax.Hub, thread_content]);
+                    }
+                });
+            </script>
+
+            <!-- Add comment -->
+            <form action="action_comment_on_thread.php?thread_id= <?php echo htmlspecialchars($thread_id); ?>" method="post">
+                <input type="textarea" name="comment_content" placeholder="share your thoughts here...">
+                <input type="submit" value="comment">
+            </form>
+
+            <!-- load comments -->
+            <h3> Comments </h3>
+            <?php
+                foreach ($comments as $comment) {
+                    echo '<div><p>';
+                    echo htmlspecialchars($comment["content"]);
+                    echo '</p></div>';
+                }
+            ?>
+        </div>
+    </body>
+</html>

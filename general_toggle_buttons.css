@@ -1,0 +1,26 @@
+/* Button styles */
+.btn {
+    background-color: #007BFF; /* Match your theme color */
+    color: #fff; /* Text color */
+    padding: 10px 20px; /* Padding for top/bottom and left/right */
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    text-align: center; /* Center the text horizontally */
+    text-decoration: none; /* Remove underline */
+    display: inline-block; /* Display as block-level element */
+    transition: background-color 0.3s, color 0.3s; /* Smooth hover effect */
+}
+
+/* Hover effect */
+.btn:hover {
+    background-color: #0056b3; /* Darker color on hover */
+}
+
+/* Active (clicked) state */
+.btn.active {
+    background-color: #0056b3; /* Darker color for active state */
+    color: #fff; /* Text color for active state */
+}

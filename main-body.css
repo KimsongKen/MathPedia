@@ -1,0 +1,53 @@
+Reset some default styles
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(250, 242, 235); /* Set your desired background color */
+    font-family: Arial, sans-serif; /* Choose an appropriate font */
+}
+
+html {
+    overflow: hidden;
+}
+
+/* Style the main content container */
+.main-body {
+    position: relative;
+    left: 10px;
+    width: 45%;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: rgb(250, 242, 235); /* Match your theme color */
+    padding: 20px; /* Add some padding for content */
+    transition: left 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for depth */
+    border-radius: 5px; /* Apply a subtle border-radius for rounded corners */
+    border-left: 1px solid #ccc; /* Add a nice border to separate it from the sidebar */
+    margin-left: 10px; /* Create a gap between the sidebar and content */
+}
+
+
+/* Additional styling for the main content */
+.main-body h1 {
+    font-size: 24px;
+    color: #333; /* Text color for headings */
+    margin-bottom: 20px; /* Add some space after headings */
+}
+
+.main-body p {
+    font-size: 16px;
+    color: #666; /* Text color for paragraphs */
+    margin-bottom: 10px; /* Add some space after paragraphs */
+}
+
+/* Style links within the main content */
+.main-body a {
+    color: #007BFF; /* Link color */
+    text-decoration: none; /* Remove underlines from links */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+/* Apply styles on hover for links */
+.main-body a:hover {
+    color: #0056b3; /* Hovered link color */
+}

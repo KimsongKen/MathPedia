@@ -1,0 +1,144 @@
+<!-- quick_thread_with_realtime_mathjax_updated.html -->
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title> Quick thread </title>
+    <style>
+        .tag {
+            display: inline-block;
+            padding: 5px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            background-color: #f2f2f2;
+            cursor: pointer;
+          }          
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const tagDropdown = document.getElementById("tagDropdown");
+            const selectedTags = document.getElementById("selectedTags");
+            const finalTags = document.getElementById("finalTags");
+          
+            let selectedTagList = [];
+          
+            // Add a tag from the dropdown to the list
+            tagDropdown.addEventListener("change", function() {
+              const tag = tagDropdown.value;
+              if (!selectedTagList.includes(tag)) {
+                selectedTagList.push(tag);
+                updateTagDisplay();
+              }
+              tagDropdown.value = "";
+            });
+          
+            // Update the display and hidden input
+            function updateTagDisplay() {
+              selectedTags.innerHTML = "";
+              selectedTagList.forEach((tag) => {
+                const tagElement = document.createElement("span");
+                tagElement.className = "tag";
+                tagElement.textContent = tag;
+                tagElement.addEventListener("click", function() {
+                  removeTag(tag);
+                });
+                selectedTags.appendChild(tagElement);
+              });
+              finalTags.value = selectedTagList.join(",");
+            }
+          
+            // Remove a tag from the list
+            function removeTag(tag) {
+              selectedTagList = selectedTagList.filter((t) => t !== tag);
+              updateTagDisplay();
+            }
+          });          
+    </script>
+    <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            processEscapes: true
+          }
+        });
+      </script>
+</head>
+<body>
+    <script>
+        function updatePreviewAndMathJax(inputElementId, outputElementId) {
+            var inputElement = document.getElementById(inputElementId);
+            var outputElement = document.getElementById(outputElementId);
+
+            outputElement.innerHTML = inputElement.value;
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElementId]);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var contentArea = document.getElementById('content');
+            var titleArea = document.getElementById('title');
+
+            // Listen for changes
+            contentArea.addEventListener('input', function() { 
+                updatePreviewAndMathJax('content', 'contentPreview'); 
+            });
+
+            titleArea.addEventListener('input', function() { 
+                updatePreviewAndMathJax('title', 'titlePreview'); 
+            });
+
+            // Trigger initial rendering
+            updatePreviewAndMathJax('content', 'contentPreview');
+            updatePreviewAndMathJax('title', 'titlePreview');
+        });
+    </script>
+
+<script>
+    // Function to update MathJax rendering
+    function updateMathJax() {
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+
+    // Add event listeners to update MathJax when content or title changes
+    document.addEventListener('DOMContentLoaded', function () {
+        var contentArea = document.getElementById('content');
+        var titleArea = document.getElementsByName('title')[0];
+        
+        contentArea.addEventListener('input', updateMathJax);
+        titleArea.addEventListener('input', updateMathJax);
+    });
+</script>
+<form action="action_thread_post.php" id="ThreadForm" method="post">
+<input id="title" name="title" placeholder="title..." required="" type="text"/>
+<div id="titlePreview" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+<textarea id="content" name="content" placeholder="more informations..." required=""></textarea>
+<div id="contentPreview" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+
+<select id="tagDropdown" name="tagDropdown">
+  <option value="" disabled selected>Select a tag</option>
+  <?php
+  foreach ($tags as $tag) {
+      echo '<option value="' . $tag . '">' . ucfirst($tag) . '</option>';
+  }
+  ?>
+</select>
+
+<div id="selectedTags"></div>
+
+<!-- Hidden input to store the final list of tags -->
+<input type="hidden" id="finalTags" name="tags">
+
+<input name="post" type="submit" value="post"/>
+</form>
+<script>
+            // Ensure the DOM is fully loaded
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById('ThreadForm').addEventListener('submit', function(event) {
+                    var ThreadContent = document.getElementById('content');
+                    ThreadContent.value = ThreadContent.value.replace(/\n/g, '<br >');
+                });
+            });
+        </script>
+
+</body>
+</html>

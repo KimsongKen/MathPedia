@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="page_register.css">
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Select all radio buttons by name 'occupation'
+                const radios = document.querySelectorAll('input[type=radio][name="occupation"]');
+                
+                radios.forEach(radio => {
+                    // Add keydown event listener to each radio button
+                    radio.addEventListener('keydown', function(event) {
+                        if (event.key === "Enter") {
+                            // Prevent form submission
+                            event.preventDefault();
+                            // Toggle the radio button
+                            this.checked = !this.checked;
+                        }
+                    });
+                });
+            });
+        </script>
+        <title> Register Page </title>
+    </head>
+    
+    <body>
+        <h2 class="title"> Please fill in the information to register</h2>
+        <form action="action_register.php" method="post">
+            <input type="text" name="username" placeholder="username" required><br>
+            <input type="email" name="email" placeholder="email" required><br>
+            <input type="password" name="password" placeholder="password" required><br>
+            <input type="date" name="dateOfBirth" placeholder="dateOfBirth" required><br>
+
+            <div class="radio-container">
+                <input type="radio" name="occupation" value="student" id="student" required>
+                <label for="student">Student</label>
+                
+                <input type="radio" name="occupation" value="teacher" id="teacher">
+                <label for="teacher">Teacher</label>
+                
+                <input type="radio" name="occupation" value="other" id="other">
+                <label for="other">Other</label>
+            </div>
+            
+            <input type="submit" value="Register">
+        </form>
+
+        <form action="page_login.php">
+            <input type="submit" value="Already have an account?">
+        </form>
+    </body>
+</html>

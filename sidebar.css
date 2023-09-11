@@ -1,0 +1,44 @@
+/* Toggle button styles */
+#toggleSidebar {
+    position: relative;
+    top: 20px;
+    background-color: #007BFF; /* Match your theme color */
+    border: none;
+    cursor: pointer;
+    padding: 10px 15px; /* Slightly reduce padding for a cleaner look */
+    border-radius: 15px; /* Make the button fully rounded */
+    font-size: 16px; /* Slightly increase font size */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Center the hamburger lines vertically */
+    align-items: center; /* Center the hamburger lines horizontally */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Add a smooth transition */
+}
+/* Hamburger lines */
+/* Hamburger lines */
+#toggleSidebar::before,
+#toggleSidebar::after {
+    content: "";
+    width: 25px;
+    height: 3px; /* Reduce the height for three lines */
+    background-color: rgb(255, 255, 255);
+    border-radius: 1px;
+    margin: 3px 0; /* Add margin to create three lines */
+}
+
+#toggleSidebar::before {
+    transform: translateY(-5px); /* Position the top hamburger line */
+}
+
+#toggleSidebar::after {
+    transform: translateY(5px); /* Position the bottom hamburger line */
+}
+
+
+
+
+/* Toggle button hover effect */
+#toggleSidebar:hover {
+    background-color: #322ea3; /* Darker color on hover */
+    transform: scale(1.05); /* Slightly increase size on hover for a subtle effect */
+}
