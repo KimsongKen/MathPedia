@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EduQuery</title>
+    <link rel="stylesheet" type="text/css" href="main-body.css">
+    <link rel="stylesheet" type="text/css" href="general_toggle_buttons.css">
+    <link rel="stylesheet" type="text/css" href="sidebar.css">
+    <link rel="stylesheet" type="text/css" href="page_home.css">
+
+
+    
+    <script src="page_home.js"></script> 
+    <script src="action_logout.js"></script>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div>
+        <div class="sidebar">
+            <a href="page_home.php"> Home </a>
+            <a href="popup_create_thread.php"> Quick Thread </a>
+            <div>
+                <?php
+                session_start();
+                if (!isset($_SESSION["user_id"])) {
+                    echo '<a href="page_login.php">  Login </a>';
+                } else {
+                    echo '<a href="#" onclick="action_logout()"> Logout </a>';
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main body -->
+    
+    <!-- toggle bar -->
+
+    <div class="main-body">
+        <button id="toggleSidebar" class="toggle-button"></button> 
+
+
+        <!-- Threads -->
+        <div class="scrollable">
+            <h4> Threads </h4>
+            <?php
+            foreach ($threads as $thread_id => $thread) {
+                $tag_string = "";
+                if (array_key_exists('tags', $thread)) {
+                    $tag_string = implode(' ', $thread['tags']);
+                }
+                echo '<div class="thread" data-tags="' . $tag_string . '">';
+                echo '<a href="page_thread.php?thread_id=' . $thread_id . '">';
+                echo $thread['title'];
+                echo '</a>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+        <div>
+            
+        </div>
+        <style>
+            .class {
+                position: relative;
+                left: 29px
+            }
+
+        </style>
+        <div class="right-body">
+        <!-- Search bar -->
+        <div>
+            <form action="page_home_search.php" method="get" id="searchForm">
+                <input type="text" name="search_words" placeholder="Search.." id="searchText">
+                <input type="submit" value="search">
+            </form>
+
+            <!-- Search check empty text field -->
+            <script> 
+                const form = document.getElementById('searchForm');
+                
+                form.addEventListener('submit', function(event) {
+                    const text = document.getElementById('searchText').value;
+                    if (text.trim() === '') {
+                        event.preventDefault();
+                    }
+                })
+            </script>
+        </div>
+
+        <!-- Tags -->
+        <div>   
+            <h4> Section </h4>
+            <?php
+            foreach ($tags as $tag) {
+                echo '<button class="btn" onclick="filterSelection(\'' . $tag . '\', this)">' . ucfirst($tag) . '</button>';
+            }
+            ?>
+        </div>
+        </div>
+    </div>
+</body>
+</html>
