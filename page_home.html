@@ -79,6 +79,26 @@
         }        
     </style>
 
+    <style>
+        .right-body {
+            position: fixed;
+            left: 80%;
+            top: 10px; /* Adjust as needed */
+            right: 10px; /* Adjust as needed */
+        }
+    
+        .right-body > div:first-child {
+            /* This targets the search bar */
+        }
+    
+        .right-body + div {
+            /* This targets the tags (sections) */
+            position: absolute;
+            top: 60px; /* Adjust based on the height of the search bar */
+            right: 10px; /* Adjust as needed */
+        }
+    </style>
+
     <script src="page_home.js"></script> 
     <script src="action_logout.js"></script>
     <script>
@@ -170,34 +190,33 @@
             }
             ?>
         </div>
-        <div>
-            
-        </div>
-        <div class="right-body">
-            <!-- Search bar -->
-            <div>
-                <form action="page_home_search.php" method="get" id="searchForm">
-                    <input type="text" name="search_words" placeholder="Search.." id="searchText">
-                    <input type="submit" value="search">
-                </form>
+        <!-- <div> -->
+    </div>
 
-                <!-- Search check empty text field -->
-                <script> 
-                    const form = document.getElementById('searchForm');
-                    
-                    form.addEventListener('submit', function(event) {
-                        const text = document.getElementById('searchText').value;
-                        if (text.trim() === '') {
-                            event.preventDefault();
-                        }
-                    })
-                </script>
-            </div>
-        </div>
+    <div class="right-body">
+        <!-- Search bar -->
+        <div>
+            <form action="page_home_search.php" method="get" id="searchForm">
+                <input type="text" name="search_words" placeholder="Search.." id="searchText">
+                <input type="submit" value="search">
+            </form>
+
+            <!-- Search check empty text field -->
+            <script> 
+                const form = document.getElementById('searchForm');
+                
+                form.addEventListener('submit', function(event) {
+                    const text = document.getElementById('searchText').value;
+                    if (text.trim() === '') {
+                        event.preventDefault();
+                    }
+                })
+            </script>
+    
 
         <!-- Tags -->
         <div>   
-            <h4> Section </h4>
+            <h4> Tags </h4>
             <?php
             foreach ($tags as $tag) {
                 echo '<button class="btn" onclick="filterSelection(\'' . $tag . '\', this)">' . ucfirst($tag) . '</button>';
@@ -206,5 +225,6 @@
         </div>
         </div>
     </div>
+    
 </body>
 </html>
