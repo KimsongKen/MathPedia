@@ -1,11 +1,16 @@
 <?php
 // handle_vote.php
-session_start();
-
 include __DIR__ . '/.functions.php';
 $conn = connectToDatabase();
 
-$user_id = $_SESSION['user_id']; // Assuming you're using PHP sessions to track logged-in users
+session_start();
+$is_logged_in = isset($_SESSION['user_id']);
+if (!$is_logged_in) {
+    header('Content-Type: application/json');
+    echo json_encode(['error' => 'Please login to vote on threads.']);
+    exit();
+} else {
+$user_id = $_SESSION['user_id'];
 $thread_id = $_POST['thread_id'];
 $vote_type = $_POST['vote_type'];
 
@@ -55,8 +60,9 @@ $result = $query->get_result();
 $row = $result->fetch_assoc();
 $new_vote_count = $row['vote_count'];
 
-echo $new_vote_count;
+echo json_encode(['newVoteCount' => $new_vote_count]);
 
 $conn->close();
+}
 ?>
 

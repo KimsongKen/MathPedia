@@ -101,45 +101,6 @@
 
     <script src="page_home.js"></script> 
     <script src="action_logout.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const upvoteButtons = document.querySelectorAll('.upvote');
-            const downvoteButtons = document.querySelectorAll('.downvote');
-        
-            function handleVote(button, voteType) {
-                const voteSection = button.parentElement;
-                const voteCountEl = voteSection.querySelector('.vote-count');
-                const thread_id = button.getAttribute('data-thread-id');
-        
-                fetch('handle_vote.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: `thread_id=${thread_id}&vote_type=${voteType}`
-                })
-                .then(response => response.text())
-                .then(newVoteCount => {
-                    voteCountEl.textContent = newVoteCount;
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            }
-        
-            upvoteButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    handleVote(button, 'upvote');
-                });
-            });
-        
-            downvoteButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    handleVote(button, 'downvote');
-                });
-            });
-        });          
-    </script>
 </head>
 
 <body>
@@ -150,11 +111,13 @@
             <a href="popup_create_thread.php"> Quick Thread </a>
             <div>
                 <?php
-                if (!isset($_SESSION["user_id"])) {
+                session_start();
+                if (!isset($_SESSION['user_id'])) {
                     echo '<a href="page_login.php">  Login </a>';
                 } else {
                     echo '<a href="#" onclick="action_logout()"> Logout </a>';
                 }
+                session_abort();
                 ?>
             </div>
         </div>
@@ -228,3 +191,48 @@
     
 </body>
 </html>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const upvoteButtons = document.querySelectorAll('.upvote');
+        const downvoteButtons = document.querySelectorAll('.downvote');
+    
+        function handleVote(button, voteType) {
+            const voteSection = button.parentElement;
+            const voteCountEl = voteSection.querySelector('.vote-count');
+            const thread_id = button.getAttribute('data-thread-id');
+    
+            fetch('handle_vote.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `thread_id=${thread_id}&vote_type=${voteType}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    voteCountEl.textContent = data.newVoteCount;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    
+        upvoteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                handleVote(button, 'upvote');
+            });
+        });
+    
+        downvoteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                handleVote(button, 'downvote');
+            });
+        });
+    });          
+</script>

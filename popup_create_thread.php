@@ -19,6 +19,7 @@ while ($row = $results_tags->fetch_assoc()) {
     $tags[] = $row['name'];
 }
 
+session_abort();
 include 'popup_create_thread.html';
 ?>
 

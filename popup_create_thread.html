@@ -14,6 +14,23 @@
             cursor: pointer;
           }          
     </style>
+
+    <style>
+      .container {
+        display: flex;
+    }
+    
+    .left-form {
+        width: 50%;
+        /* Add any additional styling for the form here */
+    }
+    
+    .right-preview {
+        width: 50%;
+        /* Add any additional styling for the content preview here */
+    }
+    
+    </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const tagDropdown = document.getElementById("tagDropdown");
@@ -108,25 +125,41 @@
         titleArea.addEventListener('input', updateMathJax);
     });
 </script>
-<form action="action_thread_post.php" id="ThreadForm" method="post">
-<input id="title" name="title" placeholder="title..." required="" type="text"/>
-<!-- <div id="titlePreview" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div> -->
-<textarea id="content" name="content" placeholder="more informations..." required=""></textarea>
-<div id="contentPreview" style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;"></div>
+<div class="container">
+  <form action="action_thread_post.php" method="post" id="ThreadForm" class="left-form">
+      <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          placeholder="title..." 
+          required />
+      
+        <select id="tagDropdown" name="tagDropdown">
+          <option value="" disabled selected>Select a tag</option>
+            <?php
+            foreach ($tags as $tag) {
+                echo '<option value="' . $tag . '">' . ucfirst($tag) . '</option>';
+            }
+            ?>
+          </select>
+          
+        <div id="selectedTags"></div>
+        <input type="hidden" id="finalTags" name="tags">
 
-<select id="tagDropdown" name="tagDropdown">
-  <option value="" disabled selected>Select a tag</option>
-  <?php
-  foreach ($tags as $tag) {
-      echo '<option value="' . $tag . '">' . ucfirst($tag) . '</option>';
-  }
-  ?>
-</select>
+      <textarea 
+          id="content" 
+          name="content" 
+          placeholder="more informations..." 
+          required>
+      </textarea>
+  </form>
 
-<div id="selectedTags"></div>
-
-<!-- Hidden input to store the final list of tags -->
-<input type="hidden" id="finalTags" name="tags">
+  <div 
+      id="contentPreview" 
+      class="right-preview"
+      style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+  </div>
+</div>
 
 <input name="post" type="submit" value="post"/>
 </form>

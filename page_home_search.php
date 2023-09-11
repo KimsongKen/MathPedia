@@ -1,6 +1,7 @@
 <?php
 $site = "EduQuery";
 session_start();
+$is_logged_in = isset($_SESSION['user_id']);
 
 include __DIR__ . '/.functions.php';
 
@@ -92,5 +93,6 @@ try {
     $conn->close();
 }
 
+session_abort();
 include 'page_home.html';
 ?>

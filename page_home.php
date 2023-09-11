@@ -1,4 +1,7 @@
 <?php 
+session_start();
+$is_logged_in = isset($_SESSION['user_id']);
+
 $site = "EduQuery";
 
 include __DIR__ . '/.functions.php';
@@ -64,6 +67,6 @@ try {
 } finally {
     $conn->close();
 }
-
+session_abort();
 include 'page_home.html';
 ?>
