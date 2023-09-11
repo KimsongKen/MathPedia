@@ -1,4 +1,5 @@
 <?php
+hello
 session_start();
 include __DIR__ . '/.functions.php';
 
