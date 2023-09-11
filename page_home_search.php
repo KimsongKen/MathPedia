@@ -1,5 +1,6 @@
 <?php
 $site = "EduQuery";
+session_start();
 
 include __DIR__ . '/.functions.php';
 

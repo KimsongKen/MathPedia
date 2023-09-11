@@ -6,11 +6,120 @@
     <link rel="stylesheet" type="text/css" href="general_toggle_buttons.css">
     <link rel="stylesheet" type="text/css" href="sidebar.css">
     <link rel="stylesheet" type="text/css" href="page_home.css">
+    <style>
+        .scrollable {
+            max-height: 600px; /* Adjust as needed */
+            overflow-y: auto;
+            padding: 20px;
+            background-color: #f5f5f5; /* Light gray background */
+        }
+        
+        h4 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .thread {
+            background-color: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            transition: transform 0.2s; /* Smooth hover effect */
+        }
+        
+        .thread:hover {
+            transform: translateY(-5px); /* Lift the thread up slightly on hover */
+        }
+        
+        .thread a {
+            font-size: 20px; /* Larger font for the title */
+            color: #333; /* Dark gray color */
+            text-decoration: none; /* Remove underline */
+        }
+        
+        .thread[data-tags]::before {
+            content: attr(data-tags); /* Display tags */
+            display: block;
+            font-size: 12px;
+            color: #999; /* Light gray color for tags */
+            margin-bottom: 10px;
+        }
+    </style>
 
+    <style>
+        .vote-section {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .upvote, .downvote {
+            background-color: transparent;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .upvote:hover {
+            background-color: #2ecc71; /* Green color for upvote hover */
+            color: white;
+        }
+        
+        .downvote:hover {
+            background-color: #e74c3c; /* Red color for downvote hover */
+            color: white;
+        }
+        
+        .vote-count {
+            font-size: 16px;
+            color: #333;
+        }        
+    </style>
 
-    
     <script src="page_home.js"></script> 
     <script src="action_logout.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const upvoteButtons = document.querySelectorAll('.upvote');
+            const downvoteButtons = document.querySelectorAll('.downvote');
+        
+            function handleVote(button, voteType) {
+                const voteSection = button.parentElement;
+                const voteCountEl = voteSection.querySelector('.vote-count');
+                const thread_id = button.getAttribute('data-thread-id');
+        
+                fetch('handle_vote.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `thread_id=${thread_id}&vote_type=${voteType}`
+                })
+                .then(response => response.text())
+                .then(newVoteCount => {
+                    voteCountEl.textContent = newVoteCount;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        
+            upvoteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    handleVote(button, 'upvote');
+                });
+            });
+        
+            downvoteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    handleVote(button, 'downvote');
+                });
+            });
+        });          
+    </script>
 </head>
 
 <body>
@@ -21,7 +130,6 @@
             <a href="popup_create_thread.php"> Quick Thread </a>
             <div>
                 <?php
-                session_start();
                 if (!isset($_SESSION["user_id"])) {
                     echo '<a href="page_login.php">  Login </a>';
                 } else {
@@ -37,7 +145,7 @@
     <!-- toggle bar -->
 
     <div class="main-body">
-        <button id="toggleSidebar" class="toggle-button"></button> 
+        <!-- <button id="toggleSidebar" class="toggle-button"></button>  -->
 
 
         <!-- Threads -->
@@ -48,11 +156,16 @@
                 $tag_string = "";
                 if (array_key_exists('tags', $thread)) {
                     $tag_string = implode(' ', $thread['tags']);
-                }
+                }                
                 echo '<div class="thread" data-tags="' . $tag_string . '">';
                 echo '<a href="page_thread.php?thread_id=' . $thread_id . '">';
                 echo $thread['title'];
                 echo '</a>';
+                echo '<div class="vote-section">';
+                echo '<button class="upvote" data-thread-id="' . $thread_id . '">Upvote</button>';
+                echo '<span class="vote-count">' . $thread['vote_count'] . '</span>'; // Use the actual vote count from the database
+                echo '<button class="downvote" data-thread-id="' . $thread_id . '">Downvote</button>';
+                echo '</div>';
                 echo '</div>';
             }
             ?>
@@ -60,32 +173,26 @@
         <div>
             
         </div>
-        <style>
-            .class {
-                position: relative;
-                left: 29px
-            }
-
-        </style>
         <div class="right-body">
-        <!-- Search bar -->
-        <div>
-            <form action="page_home_search.php" method="get" id="searchForm">
-                <input type="text" name="search_words" placeholder="Search.." id="searchText">
-                <input type="submit" value="search">
-            </form>
+            <!-- Search bar -->
+            <div>
+                <form action="page_home_search.php" method="get" id="searchForm">
+                    <input type="text" name="search_words" placeholder="Search.." id="searchText">
+                    <input type="submit" value="search">
+                </form>
 
-            <!-- Search check empty text field -->
-            <script> 
-                const form = document.getElementById('searchForm');
-                
-                form.addEventListener('submit', function(event) {
-                    const text = document.getElementById('searchText').value;
-                    if (text.trim() === '') {
-                        event.preventDefault();
-                    }
-                })
-            </script>
+                <!-- Search check empty text field -->
+                <script> 
+                    const form = document.getElementById('searchForm');
+                    
+                    form.addEventListener('submit', function(event) {
+                        const text = document.getElementById('searchText').value;
+                        if (text.trim() === '') {
+                            event.preventDefault();
+                        }
+                    })
+                </script>
+            </div>
         </div>
 
         <!-- Tags -->

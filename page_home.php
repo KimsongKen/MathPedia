@@ -26,7 +26,9 @@ function fetchThreads($conn) {
     if ($result) {
         while ($row = $result->fetch_assoc()) {
             $thread_id = $row['thread_id'];
-            $threads[$thread_id] = ['title' => $row['title'], 'tags' => []];
+            $threads[$thread_id] = ['title' => $row['title'],
+                                    'vote_count' => $row['vote_count'],
+                                    'tags' => []];
         }
     } else {
         echo "Error fetching threads.";

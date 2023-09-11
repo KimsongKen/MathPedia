@@ -16,21 +16,21 @@ function filterSelection(category, btnElement) {
     });
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    var toggleButton = document.getElementById("toggleSidebar");
-    var sidebar = document.getElementsByClassName("sidebar")[0];
-    var mainBody = document.getElementsByClassName("main-body")[0];
+// document.addEventListener("DOMContentLoaded", function() {
+//     var toggleButton = document.getElementById("toggleSidebar");
+//     var sidebar = document.getElementsByClassName("sidebar")[0];
+//     var mainBody = document.getElementsByClassName("main-body")[0];
 
-    toggleButton.addEventListener("click", function() {
-        if (sidebar.style.width === "200px" || sidebar.style.width === "") {
-            sidebar.style.width = "0";
-            mainBody.style.left = "0";
-        } else {
-            sidebar.style.width = "200px";
-            mainBody.style.left = "250px";
-        }
-    });
-});
+//     toggleButton.addEventListener("click", function() {
+//         if (sidebar.style.width === "200px" || sidebar.style.width === "") {
+//             sidebar.style.width = "0";
+//             mainBody.style.left = "0";
+//         } else {
+//             sidebar.style.width = "200px";
+//             mainBody.style.left = "250px";
+//         }
+//     });
+// });
 
 
 
