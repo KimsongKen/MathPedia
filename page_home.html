@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="general_toggle_buttons.css">
     <link rel="stylesheet" type="text/css" href="sidebar.css">
     <link rel="stylesheet" type="text/css" href="page_home.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         .scrollable {
             max-height: 600px; /* Adjust as needed */
@@ -45,6 +47,7 @@
             color: #999; /* Light gray color for tags */
             margin-bottom: 10px;
         }
+        
     </style>
 
     <style>
@@ -82,9 +85,9 @@
     <style>
         .right-body {
             position: fixed;
-            left: 80%;
+            left: 70%;
             top: 10px; /* Adjust as needed */
-            right: 10px; /* Adjust as needed */
+            right: 80px; /* Adjust as needed */
         }
     
         .right-body > div:first-child {
@@ -107,15 +110,15 @@
     <!-- Sidebar -->
     <div>
         <div class="sidebar">
-            <a href="page_home.php"> Home </a>
-            <a href="popup_create_thread.php"> Quick Thread </a>
+            <a href="page_home.php"><i class="fas fa-home"></i> Home</a>
+            <a href="popup_create_thread.php"><i class="fas fa-compass"></i> Quick Thread</a>
             <div>
                 <?php
                 session_start();
                 if (!isset($_SESSION['user_id'])) {
-                    echo '<a href="page_login.php">  Login </a>';
+                    echo '<a href="page_login.php"><i class="fas fa-sign-in-alt"></i> Login</a>';
                 } else {
-                    echo '<a href="#" onclick="action_logout()"> Logout </a>';
+                    echo '<a href="#" onclick="action_logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>';
                 }
                 session_abort();
                 ?>
@@ -129,7 +132,6 @@
 
     <div class="main-body">
         <!-- <button id="toggleSidebar" class="toggle-button"></button>  -->
-
 
         <!-- Threads -->
         <div class="scrollable">
@@ -160,8 +162,7 @@
         <!-- Search bar -->
         <div>
             <form action="page_home_search.php" method="get" id="searchForm">
-                <input type="text" name="search_words" placeholder="Search.." id="searchText">
-                <input type="submit" value="search">
+                <input type="text" name="search_words" placeholder="Search For Topic" id="searchText">
             </form>
 
             <!-- Search check empty text field -->
@@ -176,18 +177,27 @@
                 })
             </script>
     
-
-        <!-- Tags -->
+        <!-- Tags #I can the tag to make them start a new line and order in aphabet -->
         <div>   
-            <h4> Tags </h4>
-            <?php
-            foreach ($tags as $tag) {
-                echo '<button class="btn" onclick="filterSelection(\'' . $tag . '\', this)">' . ucfirst($tag) . '</button>';
-            }
-            ?>
+            <div class="tags-container">
+                <h4>#Tags</h4>
+                <div class="tags-description">
+                    <p>Explore topics by selecting a tag below:</p>
+                </div>
+                <?php
+                // Sort the $tags array alphabetically
+                sort($tags);
+            
+                foreach ($tags as $tag) {
+                    echo '<button class="btn" onclick="filterSelection(\'' . $tag . '\', this)" style="display: block;">' . ucfirst($tag) . '</button>';
+                }
+                ?>
+            </div>
+                                
         </div>
         </div>
     </div>
+    
     
 </body>
 </html>

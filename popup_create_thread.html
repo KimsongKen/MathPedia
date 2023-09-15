@@ -4,33 +4,20 @@
 <html>
 <head>
     <title> Quick thread </title>
+    <link rel="stylesheet" type="text/css" href="popup.css">
     <style>
-        .tag {
-            display: inline-block;
-            padding: 5px;
-            margin: 5px;
-            border: 1px solid #ccc;
-            background-color: #f2f2f2;
-            cursor: pointer;
-          }          
-    </style>
+      /* Define a class for the fancy font */
+      .fancy-font {
+          font-family: 'Your Fancy Font', cursive; /* Replace 'Your Fancy Font' with the actual font name */
+      }
 
-    <style>
-      .container {
-        display: flex;
-    }
-    
-    .left-form {
-        width: 50%;
-        /* Add any additional styling for the form here */
-    }
-    
-    .right-preview {
-        width: 50%;
-        /* Add any additional styling for the content preview here */
-    }
-    
-    </style>
+      /* Style the h2 element with an underline */
+      h2.underline {
+          text-decoration: underline;
+          color: #a3390c;
+      }
+  </style>  
+   
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const tagDropdown = document.getElementById("tagDropdown");
@@ -81,6 +68,7 @@
         });
       </script>
 </head>
+
 <body>
     <script>
         function updatePreviewAndMathJax(inputElementId, outputElementId) {
@@ -127,39 +115,44 @@
 </script>
 <div class="container">
   <form action="action_thread_post.php" method="post" id="ThreadForm" class="left-form">
-      <input 
-          type="text" 
-          id="title" 
-          name="title" 
-          placeholder="title..." 
-          required />
-      
-        <select id="tagDropdown" name="tagDropdown">
-          <option value="" disabled selected>Select a tag</option>
-            <?php
-            foreach ($tags as $tag) {
-                echo '<option value="' . $tag . '">' . ucfirst($tag) . '</option>';
-            }
-            ?>
+      <div class="input-container">
+          <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder="title..."
+              required />
+          <select id="tagDropdown" name="tagDropdown">
+              <option value="" disabled selected>Select tag</option>
+              <?php
+              foreach ($tags as $tag) {
+                  echo '<option value="' . $tag . '">' . ucfirst($tag) . '</option>';
+              }
+              ?>
           </select>
-          
-        <div id="selectedTags"></div>
-        <input type="hidden" id="finalTags" name="tags">
+      </div>
 
-      <textarea 
-          id="content" 
-          name="content" 
-          placeholder="more informations..." 
+      <div id="selectedTags"></div>
+      <input type="hidden" id="finalTags" name="tags">
+      <textarea
+          id="content"
+          name="content"
+          placeholder="more informations..."
           required>
       </textarea>
   </form>
 
-  <div 
-      id="contentPreview" 
+  <div>
+    <h2 class="underline fancy-font">Preview</h2>
+  </div>
+  <div
+      id="contentPreview"
       class="right-preview"
       style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+
   </div>
 </div>
+
 
 <input name="post" type="submit" value="post"/>
 </form>

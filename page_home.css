@@ -5,6 +5,7 @@ body, h1, h2, p, form, a {
     color: inherit;
 }
 
+
 body {
     background-color: rgb(250, 242, 235);
     font-family: Arial, sans-serif;
@@ -37,11 +38,7 @@ body {
 }
 
 /* Main body styles */
-.main-body {
-    margin-left: 250px;
-    padding: 20px;
-    transition: 0.3s;
-}
+
 
 .toggle-button {
     background-color: #007BFF;
@@ -78,7 +75,11 @@ h4 {
     margin-top: 20px;
     color: #a3390c; /* Match your desired color */
 }
-
+.main-body {
+    margin-left: 220px;
+    padding: 20px;
+    transition: 0.3s;
+}
 .btn {
     background-color: #007BFF;
     color: #fff;

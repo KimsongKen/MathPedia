@@ -1,53 +1,145 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="page_register.css">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+    <style>
+        /* Style the body */
+        body {
+            background-color: rgb(250, 242, 235);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                // Select all radio buttons by name 'occupation'
-                const radios = document.querySelectorAll('input[type=radio][name="occupation"]');
-                
-                radios.forEach(radio => {
-                    // Add keydown event listener to each radio button
-                    radio.addEventListener('keydown', function(event) {
-                        if (event.key === "Enter") {
-                            // Prevent form submission
-                            event.preventDefault();
-                            // Toggle the radio button
-                            this.checked = !this.checked;
-                        }
-                    });
-                });
-            });
-        </script>
-        <title> Register Page </title>
-    </head>
-    
-    <body>
-        <h2 class="title"> Please fill in the information to register</h2>
+        /* Style the container */
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+        }
+
+        /* Style the heading */
+        .container h2 {
+            text-align: center;
+            color: #a3390c;
+            margin-bottom: 20px;
+        }
+
+        /* Style the form */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Style input elements */
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="date"] {
+            margin: 5px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        /* Style the radio container div */
+        input[type="radio"] {
+            display: none;
+        }
+
+        .radio-container {
+            display: flex;
+            flex-direction: column;
+            margin: 5px;
+            padding: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        /* Style the custom radio buttons */
+        .radio-container label {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 5px;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        /* Create the custom radio dot */
+        .radio-container label::before {
+            content: "";
+            width: 14px;
+            height: 14px;
+            border: 2px solid #007BFF;
+            background-color: transparent;
+            margin-right: 10px;
+            transition: background-color 0.2s ease;
+        }
+
+        /* Style the custom radio dot when checked */
+        .radio-container input[type="radio"]:checked + label::before {
+            background-color: #007BFF;
+            border-color: #007BFF;
+        }
+
+        /* Style submit button */
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            margin: 2px;
+            border: 2px solid rgb(226, 221, 221);
+            padding: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        /* Hover effect for submit button */
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* Style the register link */
+        .register-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Please fill in the information to register</h2>
         <form action="action_register.php" method="post">
-            <input type="text" name="username" placeholder="username" required><br>
-            <input type="email" name="email" placeholder="email" required><br>
-            <input type="password" name="password" placeholder="password" required><br>
-            <input type="date" name="dateOfBirth" placeholder="dateOfBirth" required><br>
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="date" name="dateOfBirth" placeholder="Date of Birth" required>
 
             <div class="radio-container">
                 <input type="radio" name="occupation" value="student" id="student" required>
                 <label for="student">Student</label>
-                
+
                 <input type="radio" name="occupation" value="teacher" id="teacher">
                 <label for="teacher">Teacher</label>
-                
+
                 <input type="radio" name="occupation" value="other" id="other">
                 <label for="other">Other</label>
             </div>
-            
+
             <input type="submit" value="Register">
         </form>
 
         <form action="page_login.php">
             <input type="submit" value="Already have an account?">
         </form>
-    </body>
+    </div>
+</body>
 </html>

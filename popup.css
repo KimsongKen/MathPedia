@@ -1,0 +1,129 @@
+/* Reset default styles */
+body, h1, h2, p, form, a {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Global styles */
+body {
+    background-color: rgb(250, 242, 235);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center children horizontally */
+    justify-content: center; /* Center content vertically */
+    min-height: 100vh; /* Minimum full viewport height */
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center children horizontally */
+    width: 800px; /* Adjust as needed */
+    
+}
+
+.left-form {
+    width: 100%; /* Full width */
+    max-width: 400px; /* Adjust as needed */
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9; /* Background color for the form */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin-bottom: 15px;
+    
+}
+
+
+.left-form input[type="text"],
+.left-form textarea,
+.left-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+.left-form select {
+    background-color: #f2f2f2;
+    
+}
+
+.left-form textarea {
+    height: 130px; /* Adjust the height as needed */
+    width: 380px;
+    
+}
+
+.right-preview {
+    width: 420px; /* Full width */
+    height: 100px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9; /* Background color for the preview */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    margin-left: 5px; /* Add margin to separate from the left form */
+    margin-bottom: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    margin-top: 20px; /* Add margin at the top to separate from the above content */
+}
+
+/* Button styles */
+input[type="submit"] {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 90px;
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Tag styles */
+.tag {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    background-color: #f2f2f2;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+/* Title input styles */
+#title {
+    width: 60%; /* Adjust the width as needed */
+}
+
+/* Tag dropdown styles */
+#tagDropdown {
+    width: 37%; /* Adjust the width as needed */
+    margin-left: 10px; /* Add some space between the input and select */
+}
+.input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 400px;
+}
+
+
+/* Rest of your styles */
