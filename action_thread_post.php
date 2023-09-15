@@ -54,6 +54,7 @@ try {
         $user_id = $_SESSION['user_id'];
         $content = $_POST['content'];
         $title = $_POST['title'];
+        $preview_image = $_POST['preview_image'];
         $tagsString = $_POST['tags'];
         $tagsArray = explode(',', $tagsString);
 

@@ -1,6 +1,4 @@
-<!-- quick_thread_with_realtime_mathjax_updated.html -->
 <!DOCTYPE html>
-
 <html>
 <head>
     <title> Quick thread </title>
@@ -97,22 +95,8 @@
             updatePreviewAndMathJax('title', 'titlePreview');
         });
     </script>
-
-<script>
-    // Function to update MathJax rendering
-    function updateMathJax() {
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-    }
-
-    // Add event listeners to update MathJax when content or title changes
-    document.addEventListener('DOMContentLoaded', function () {
-        var contentArea = document.getElementById('content');
-        var titleArea = document.getElementsByName('title')[0];
-        
-        contentArea.addEventListener('input', updateMathJax);
-        titleArea.addEventListener('input', updateMathJax);
-    });
-</script>
+</head>
+<body>
 <div class="container">
   <form action="action_thread_post.php" method="post" id="ThreadForm" class="left-form">
       <div class="input-container">
@@ -156,15 +140,73 @@
 
 <input name="post" type="submit" value="post"/>
 </form>
-<script>
-            // Ensure the DOM is fully loaded
-            document.addEventListener("DOMContentLoaded", function() {
-                document.getElementById('ThreadForm').addEventListener('submit', function(event) {
-                    var ThreadContent = document.getElementById('content');
-                    ThreadContent.value = ThreadContent.value.replace(/\n/g, '<br >');
-                });
-            });
-        </script>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Tag selection logic
+        const tagDropdown = document.getElementById("tagDropdown");
+        const selectedTags = document.getElementById("selectedTags");
+        const finalTags = document.getElementById("finalTags");
+        let selectedTagList = [];
+
+        tagDropdown.addEventListener("change", function() {
+            const tag = tagDropdown.value;
+            if (!selectedTagList.includes(tag)) {
+                selectedTagList.push(tag);
+                updateTagDisplay();
+            }
+            tagDropdown.value = "";
+        });
+
+        function updateTagDisplay() {
+            selectedTags.innerHTML = "";
+            selectedTagList.forEach((tag) => {
+                const tagElement = document.createElement("span");
+                tagElement.className = "tag";
+                tagElement.textContent = tag;
+                tagElement.addEventListener("click", function() {
+                    removeTag(tag);
+                });
+                selectedTags.appendChild(tagElement);
+            });
+            finalTags.value = selectedTagList.join(",");
+        }
+
+        function removeTag(tag) {
+            selectedTagList = selectedTagList.filter((t) => t !== tag);
+            updateTagDisplay();
+        }
+
+        // MathJax and preview logic
+        const contentArea = document.getElementById('content');
+        const titleArea = document.getElementById('title');
+
+        contentArea.addEventListener('input', function() { 
+            updatePreviewAndMathJax('content', 'contentPreview'); 
+        });
+
+        titleArea.addEventListener('input', function() { 
+            updatePreviewAndMathJax('title', 'titlePreview'); 
+        });
+
+        function updatePreviewAndMathJax(inputElementId, outputElementId) {
+            const inputElement = document.getElementById(inputElementId);
+            const outputElement = document.getElementById(outputElementId);
+
+            outputElement.innerHTML = inputElement.value;
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElementId]);
+        }
+
+        // Initial rendering
+        updatePreviewAndMathJax('content', 'contentPreview');
+        updatePreviewAndMathJax('title', 'titlePreview');
+
+        // Replace newline with <br> on form submission
+        document.getElementById('ThreadForm').addEventListener('submit', function(event) {
+            const ThreadContent = document.getElementById('content');
+            ThreadContent.value = ThreadContent.value.replace(/\n/g, '<br >');
+        });
+    });
+</script>
 </body>
 </html>
