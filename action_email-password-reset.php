@@ -47,13 +47,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
 
             try {
-                $current_directory = getcwd();
+                $current_directory = 'http://localhost/xampp/Project/CE4221-project/';
                 // Server settings
                 $mail->isSMTP();                                        // Enable SMTP
                 $mail->Host       = 'smtp.gmail.com';                   // Specify main and backup SMTP servers
                 $mail->SMTPAuth   = true;                               // Enable SMTP authentication
                 $mail->Username   = 'huangpongsiri@gmail.com';           // Your Gmail address
-                $mail->Password   = 'blfxhpadpuenghpp';                  // Your Gmail password
+                $mail->Password   = 'blfxhpadpuenghpp';                  // 
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;     // Enable TLS encryption
                 $mail->Port       = 587;                                // TCP port to connect to
     
@@ -64,8 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 // Content
                 $mail->isHTML(true);                                  // Enable HTML in email
                 $mail->Subject = 'Please Verify Your Email Address';
-                $mail->Body = "Click on the link to verify: <a href='" . "$current_directory/" . "email_token_password_reset.php?token=" . $token . "&email=" . $email . "'>Verify Email</a>";
-
+                $mail->Body = "Click on the link to verify: <a href='{$current_directory}/page_set_new_password.php?token={$token}&email={$email}'>Verify Email</a>";
+                
                 // Send email
                 $mail->send();
                 echo 'Verification email has been sent <br>';

@@ -10,4 +10,14 @@ function connectToDatabase() {
     return $conn;
 }
 
+function delayHome() {
+    echo '
+    <script type="text/javascript">
+        setTimeout(function() {
+            window.location.href = "page_home.php";
+        }, 500);
+    </script>
+    ';
+}
+
 ?>

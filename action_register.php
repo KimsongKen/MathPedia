@@ -36,15 +36,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($stmt_checkEmailVerified->num_rows>0 && $email_verified) { # email is used
         echo 'Email is already registered';
         exit(2);
+    } 
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    if ($stmt_checkEmailVerified->num_rows>0) {
+        $sql = "UPDATE USER SET username=?, password_hash=?, occupation=?, dateOfBirth=? WHERE email=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssss", $username, $password_hash, $occupation, $dateOfBirth, $email);
+        $stmt->execute();
+        delayHome();
     } else {
         $token = bin2hex(random_bytes(50));
         $mail = new PHPMailer(true);
 
         // TABLE: USER... 
-        $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO USER (username, email, password_hash, occupation, dateOfBirth) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO USER (username, email, password_hash, occupation, dateOfBirth) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssssi", $username, $email, $password_hash, $occupation, $dateOfBirth);
+        
         $stmt->execute();
 
         // TABLE: USER... fetch user id for token_verification
@@ -63,8 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $stmt->bind_param("sss", $token, $user_id, $currentTime_20min);
         if ($stmt->execute()) {
             echo 'successfully tokenize.<br>';
+            delayHome();
         } else {
             echo 'failed to tokenize.<br>';
+            delayHome();
             exit(3);
         }
 
@@ -85,11 +95,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             // Content
             $mail->isHTML(true);                                  // Enable HTML in email
             $mail->Subject = 'Please Verify Your Email Address';
-            $mail->Body = "Click on the link to verify: <a href='http://localhost/first%20try2%203/email_token_verify.php?token=" . $token . "&email=" . $email . "'>Verify Email</a>";
+            $mail->Body = "Click on the link to verify: <a href='http://localhost/xampp/Project/CE4221-project//email_token_verify.php?token=" . $token . "&email=" . $email . "'>Verify Email</a>";
 
             // Send email
             $mail->send();
             echo 'Verification email has been sent <br>';
+            delayHome();
         } catch (Exception $e) {
             echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }

@@ -1,4 +1,5 @@
 <?php
+// to validate email when registered.
 require 'vendor/autoload.php';
 
 include __DIR__ . '/.functions.php';
@@ -10,7 +11,6 @@ if (isset($_GET['token']) && isset($_GET['email'])) {
     $email = $_GET['email'];
     $currentTime = (new DateTime())->format('Y-m-d H:i:s');
 
-    // Retrieve and validate the token from your database
     $sql = "SELECT TOKEN_VERIFICATION.* FROM TOKEN_VERIFICATION
             INNER JOIN USER ON TOKEN_VERIFICATION.user_id = USER.user_id
             WHERE USER.Email = ?
@@ -23,7 +23,6 @@ if (isset($_GET['token']) && isset($_GET['email'])) {
     $results = $stmt->get_result();
     $isTokenValid = false;
 
-    // Check if there is any valid token and set token status to `used`
     while ($row = $results->fetch_assoc()) {
         if ($row['token'] == $token) {
             $isTokenValid = true;
@@ -44,13 +43,7 @@ if (isset($_GET['token']) && isset($_GET['email'])) {
         
         if ($stmt->execute()) {
             echo "Email verified successfully!\n";
-            echo '
-            <script type="text/javascript">
-                setTimeout(function() {
-                    window.location.href = "page_home.php";
-                }, 500);
-            </script>
-            ';
+            delayHome();
         } else {
             echo "Failed to verify email.\n";
         }

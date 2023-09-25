@@ -3,7 +3,6 @@ require 'vendor/autoload.php';
 include __DIR__ . '/.functions.php';
 $conn = connectToDatabase();
 
-
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $email = $_POST['email'];
     $new_password = $_POST['new-password'];
@@ -14,17 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt->bind_param("ss", $password_hash, $email);
     if ($stmt->execute()) {
         echo "Password updated successfully. <br>";
-        echo '
-            <script type="text/javascript">
-                setTimeout(function() {
-                    window.location.href = "page_home.php";
-                }, 500);
-            </script>
-        ';
+        delayHome();
     } else {
         echo "Error: " . $stmt->error;
     }
 }
 $stmt->close();
 $conn->close();
+include 'page_set_new_password.html';
 ?>

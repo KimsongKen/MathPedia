@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
     <head>
         <title>Thread: <?php echo htmlspecialchars($thread_title); ?></title>
@@ -7,27 +6,69 @@
         <link rel="stylesheet" type="text/css" href="main-body.css">
         <link rel="stylesheet" type="text/css" href="general_toggle_buttons.css">
         
-        
-        <script src="general_popupwin.js"></script> 
-        <script src="popup_thread.js"></script> 
-        <script src="popup_login.js"></script> 
-        <script src="logout.js"></script>
-
-
-        <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked@9.0.3/lib/marked.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>    
         <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
-              tex2jax: {
+            tex2jax: {
                 inlineMath: [['$','$'], ['\\(','\\)']],
                 processEscapes: true
-              }
+            }
             });
-          </script>
+        </script>
+        <!-- <script src="render.js"></script> -->
+        <script>
+        // Create a new instance of the Renderer class
+        console.log("Using custom renderer")
+        const renderer = new marked.Renderer();
+        console.log("Using custom renderer")
+
+        // Override the image method
+        // Override the image method
+        renderer.image = function(href, title, text) {
+            console.log('renderer.image function invoked'); // Debug line
+            console.log("Alt text:", text);  // Debug line
+            
+            let dimensions = '';
+            const dimensionMatch = text.match(/{(.+?)}/);
+            console.log('dimensionMatch:', dimensionMatch); // Debug line
+            
+            if (dimensionMatch) {
+            const dimensionString = dimensionMatch[1];
+            const dimensionTokens = dimensionString.split(";");
+            dimensions = dimensionTokens.map(token => token.replace("=", ":").trim()).join(";");
+            text = text.replace(dimensionMatch[0], '').trim();  // Remove dimensions from alt text
+            }
+            let html = `<img src="${href}" alt="${text}" title="${title}">`;
+            if (dimensions) {
+            html = html.replace('<img', `<img style="${dimensions}"`);
+            }
+            console.log('Final HTML:', html); // Debug line
+            return html;
+        };
+
+        marked.use({ renderer });
+        
+        function updatePreviewAndMathJax(inputElementId, outputElementId) {
+            const inputElement = document.getElementById(inputElementId);
+            const outputElement = document.getElementById(outputElementId);
+
+            // Use the custom renderer
+            console.log("Before replace:", inputElement.value);
+            console.log("Value being passed to marked.parse:", inputElement.value.replace(/^&quot;|&quot;$/g, ''));
+            const htmlContent = marked.parse(inputElement.value.replace(/^&quot;|&quot;$/g, ''));
+            console.log("HTML Content:", htmlContent);
+            outputElement.innerHTML = htmlContent;
+            console.log("HTML content before MathJax:", outputElement.innerHTML);  // Debug line
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElementId], function() {
+                console.log("Output Element after MathJax:", outputElement.innerHTML);
+            });
+        }
+        </script>
     </head>
 
     <body>
         <!-- Sidebar -->
-
 
         <!-- Main body -->
         <div class="main-body">
@@ -40,12 +81,17 @@
             </div>
 
             <script>
-                MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
                 document.addEventListener("DOMContentLoaded", function() {
-                    var thread_content = document.getElementById("thread_content");
-                    if (window.MathJax) {
-                        MathJax.Hub.Queue(["Typeset", MathJax.Hub, thread_content]);
-                    }
+                    // Initialize thread_content with raw markdown from a PHP variable or some other source
+                    var rawMarkdownContent = <?php echo json_encode($thread_content_html); ?>;
+                    var thread_content_input = document.createElement("textarea"); // Create a hidden textarea to hold the raw markdown
+                    thread_content_input.id = "thread_content_input";
+                    thread_content_input.style.display = "none";
+                    thread_content_input.value = rawMarkdownContent;
+                    document.body.appendChild(thread_content_input); // Add it to the DOM
+                    
+                    // Now, call your updatePreviewAndMathJax function
+                    updatePreviewAndMathJax('thread_content_input', 'thread_content');
                 });
             </script>
 

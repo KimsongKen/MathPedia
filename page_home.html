@@ -137,6 +137,9 @@
         <div class="scrollable">
             <h4> Threads </h4>
             <?php
+            if (empty($threads)) {
+                echo '<p>No threads available.</p>';
+            }
             foreach ($threads as $thread_id => $thread) {
                 $tag_string = "";
                 if (array_key_exists('tags', $thread)) {
@@ -155,7 +158,6 @@
             }
             ?>
         </div>
-        <!-- <div> -->
     </div>
 
     <div class="right-body">

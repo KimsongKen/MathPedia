@@ -2,6 +2,17 @@
 <html>
 <head>
     <title> Quick thread </title>
+    <script src="https://cdn.jsdelivr.net/npm/marked@9.0.3/lib/marked.umd.min.js"></script>
+    <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            processEscapes: true
+        }
+        });
+    </script>
+    <script src="render.js"></script>
     <link rel="stylesheet" type="text/css" href="popup.css">
     <style>
       /* Define a class for the fancy font */
@@ -14,88 +25,50 @@
           text-decoration: underline;
           color: #a3390c;
       }
-  </style>  
-   
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const tagDropdown = document.getElementById("tagDropdown");
-            const selectedTags = document.getElementById("selectedTags");
-            const finalTags = document.getElementById("finalTags");
-          
-            let selectedTagList = [];
-          
-            // Add a tag from the dropdown to the list
-            tagDropdown.addEventListener("change", function() {
-              const tag = tagDropdown.value;
-              if (!selectedTagList.includes(tag)) {
-                selectedTagList.push(tag);
-                updateTagDisplay();
-              }
-              tagDropdown.value = "";
-            });
-          
-            // Update the display and hidden input
-            function updateTagDisplay() {
-              selectedTags.innerHTML = "";
-              selectedTagList.forEach((tag) => {
-                const tagElement = document.createElement("span");
-                tagElement.className = "tag";
-                tagElement.textContent = tag;
-                tagElement.addEventListener("click", function() {
-                  removeTag(tag);
-                });
-                selectedTags.appendChild(tagElement);
-              });
-              finalTags.value = selectedTagList.join(",");
-            }
-          
-            // Remove a tag from the list
-            function removeTag(tag) {
-              selectedTagList = selectedTagList.filter((t) => t !== tag);
-              updateTagDisplay();
-            }
-          });          
-    </script>
-    <script async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-          tex2jax: {
-            inlineMath: [['$','$'], ['\\(','\\)']],
-            processEscapes: true
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tagDropdown = document.getElementById("tagDropdown");
+        const selectedTags = document.getElementById("selectedTags");
+        const finalTags = document.getElementById("finalTags");
+      
+        let selectedTagList = [];
+      
+        // Add a tag from the dropdown to the list
+        tagDropdown.addEventListener("change", function() {
+          const tag = tagDropdown.value;
+          if (!selectedTagList.includes(tag)) {
+            selectedTagList.push(tag);
+            updateTagDisplay();
           }
+          tagDropdown.value = "";
         });
-      </script>
-</head>
-
-<body>
-    <script>
-        function updatePreviewAndMathJax(inputElementId, outputElementId) {
-            var inputElement = document.getElementById(inputElementId);
-            var outputElement = document.getElementById(outputElementId);
-
-            outputElement.innerHTML = inputElement.value;
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElementId]);
+      
+        // Update the display and hidden input
+        function updateTagDisplay() {
+          selectedTags.innerHTML = "";
+          selectedTagList.forEach((tag) => {
+            const tagElement = document.createElement("span");
+            tagElement.className = "tag";
+            tagElement.textContent = tag;
+            tagElement.addEventListener("click", function() {
+              removeTag(tag);
+            });
+            selectedTags.appendChild(tagElement);
+          });
+          finalTags.value = selectedTagList.join(",");
         }
+      
+        // Remove a tag from the list
+        function removeTag(tag) {
+          selectedTagList = selectedTagList.filter((t) => t !== tag);
+          updateTagDisplay();
+        }
+      });          
+</script>
 
-        document.addEventListener('DOMContentLoaded', function () {
-            var contentArea = document.getElementById('content');
-            var titleArea = document.getElementById('title');
-
-            // Listen for changes
-            contentArea.addEventListener('input', function() { 
-                updatePreviewAndMathJax('content', 'contentPreview'); 
-            });
-
-            titleArea.addEventListener('input', function() { 
-                updatePreviewAndMathJax('title', 'titlePreview'); 
-            });
-
-            // Trigger initial rendering
-            updatePreviewAndMathJax('content', 'contentPreview');
-            updatePreviewAndMathJax('title', 'titlePreview');
-        });
-    </script>
 </head>
+
 <body>
 <div class="container">
   <form action="action_thread_post.php" method="post" id="ThreadForm" class="left-form">
@@ -122,9 +95,8 @@
           id="content"
           name="content"
           placeholder="more informations..."
-          required>
-      </textarea>
-  </form>
+          required></textarea>
+  <!-- </form>  This is not supposed to be here --> 
 
   <div>
     <h2 class="underline fancy-font">Preview</h2>
@@ -133,80 +105,8 @@
       id="contentPreview"
       class="right-preview"
       style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
-
   </div>
 </div>
 
 
 <input name="post" type="submit" value="post"/>
-</form>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Tag selection logic
-        const tagDropdown = document.getElementById("tagDropdown");
-        const selectedTags = document.getElementById("selectedTags");
-        const finalTags = document.getElementById("finalTags");
-        let selectedTagList = [];
-
-        tagDropdown.addEventListener("change", function() {
-            const tag = tagDropdown.value;
-            if (!selectedTagList.includes(tag)) {
-                selectedTagList.push(tag);
-                updateTagDisplay();
-            }
-            tagDropdown.value = "";
-        });
-
-        function updateTagDisplay() {
-            selectedTags.innerHTML = "";
-            selectedTagList.forEach((tag) => {
-                const tagElement = document.createElement("span");
-                tagElement.className = "tag";
-                tagElement.textContent = tag;
-                tagElement.addEventListener("click", function() {
-                    removeTag(tag);
-                });
-                selectedTags.appendChild(tagElement);
-            });
-            finalTags.value = selectedTagList.join(",");
-        }
-
-        function removeTag(tag) {
-            selectedTagList = selectedTagList.filter((t) => t !== tag);
-            updateTagDisplay();
-        }
-
-        // MathJax and preview logic
-        const contentArea = document.getElementById('content');
-        const titleArea = document.getElementById('title');
-
-        contentArea.addEventListener('input', function() { 
-            updatePreviewAndMathJax('content', 'contentPreview'); 
-        });
-
-        titleArea.addEventListener('input', function() { 
-            updatePreviewAndMathJax('title', 'titlePreview'); 
-        });
-
-        function updatePreviewAndMathJax(inputElementId, outputElementId) {
-            const inputElement = document.getElementById(inputElementId);
-            const outputElement = document.getElementById(outputElementId);
-
-            outputElement.innerHTML = inputElement.value;
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElementId]);
-        }
-
-        // Initial rendering
-        updatePreviewAndMathJax('content', 'contentPreview');
-        updatePreviewAndMathJax('title', 'titlePreview');
-
-        // Replace newline with <br> on form submission
-        document.getElementById('ThreadForm').addEventListener('submit', function(event) {
-            const ThreadContent = document.getElementById('content');
-            ThreadContent.value = ThreadContent.value.replace(/\n/g, '<br >');
-        });
-    });
-</script>
-</body>
-</html>

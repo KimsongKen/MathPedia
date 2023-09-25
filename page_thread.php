@@ -25,10 +25,10 @@ if ($result_thread->num_rows > 0) {
     exit(2);
 }
 
-require 'Parsedown.php';
-$Parsedown = new Parsedown();
-$thread_content_html = $Parsedown->text($thread_content_md);
-
+// require 'Parsedown.php';
+// $Parsedown = new Parsedown();
+// $thread_content_html = $Parsedown->text($thread_content_md);
+$thread_content_html = $thread_content_md;
 $stmt_thread->close();
 
 /*

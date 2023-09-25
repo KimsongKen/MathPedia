@@ -84,7 +84,8 @@ try {
     fetchSearchedThreadTags($conn, $search_words, $searched_threads);
     $threads = $searched_threads;
     if (!$searched_threads) {
-        echo 'No content found';
+        // echo 'No content found';
+        
     }
     
 } catch (Exception $e) {
