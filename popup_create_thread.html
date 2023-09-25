@@ -1,4 +1,6 @@
+<!-- quick_thread_with_realtime_mathjax_updated.html -->
 <!DOCTYPE html>
+
 <html>
 <head>
     <title> Quick thread </title>
@@ -19,7 +21,7 @@
     <link rel="stylesheet" type="text/css" href="sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <style>
+<style>
       /* Define a class for the fancy font */
       .fancy-font {
           font-family: 'Your Fancy Font', cursive; /* Replace 'Your Fancy Font' with the actual font name */
@@ -30,8 +32,10 @@
           text-decoration: underline;
           color: #a3390c;
       }
-  </style>
-  <script>
+      
+  </style>  
+   
+   <script>
     document.addEventListener("DOMContentLoaded", function() {
         const tagDropdown = document.getElementById("tagDropdown");
         const selectedTags = document.getElementById("selectedTags");
@@ -71,12 +75,10 @@
         }
       });          
 </script>
-
 </head>
 
 <body>
-  <!-- Sidebar -->
-  <div style="position: absolute; left: 0%; top: 0%;">
+  <div style="position:fixed; left: 0%; top: 0%;">
     <div class="sidebar">
         <a href="page_home.php"><i class="fas fa-home"></i> Home</a>
         <a href="popup_create_thread.php"><i class="fas fa-compass"></i> Quick Thread</a>
@@ -94,6 +96,49 @@
     </div>
 </div>
 
+    <script>
+        function updatePreviewAndMathJax(inputElementId, outputElementId) {
+            var inputElement = document.getElementById(inputElementId);
+            var outputElement = document.getElementById(outputElementId);
+
+            outputElement.innerHTML = inputElement.value;
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElementId]);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var contentArea = document.getElementById('content');
+            var titleArea = document.getElementById('title');
+
+            // Listen for changes
+            contentArea.addEventListener('input', function() { 
+                updatePreviewAndMathJax('content', 'contentPreview'); 
+            });
+
+            titleArea.addEventListener('input', function() { 
+                updatePreviewAndMathJax('title', 'titlePreview'); 
+            });
+
+            // Trigger initial rendering
+            updatePreviewAndMathJax('content', 'contentPreview');
+            updatePreviewAndMathJax('title', 'titlePreview');
+        });
+    </script>
+
+<script>
+    // Function to update MathJax rendering
+    function updateMathJax() {
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+
+    // Add event listeners to update MathJax when content or title changes
+    document.addEventListener('DOMContentLoaded', function () {
+        var contentArea = document.getElementById('content');
+        var titleArea = document.getElementsByName('title')[0];
+        
+        contentArea.addEventListener('input', updateMathJax);
+        titleArea.addEventListener('input', updateMathJax);
+    });
+</script>
 <div class="container">
   <form action="action_thread_post.php" method="post" id="ThreadForm" class="left-form">
       <div class="input-container">
@@ -119,18 +164,32 @@
           id="content"
           name="content"
           placeholder="more informations..."
-          required></textarea>
-  <!-- </form>  This is not supposed to be here --> 
+          required>
+      </textarea>
+  </form>
 
   <div>
     <h2 class="underline fancy-font">Preview</h2>
   </div>
   <div
       id="contentPreview"
-      class="right-preview"
-      style="border: 1px solid #ccc; padding: 10px; margin-top: 10px;">
+      class="right-preview"></div>
+
   </div>
 </div>
 
 
 <input name="post" type="submit" value="post"/>
+</form>
+<script>
+            // Ensure the DOM is fully loaded
+            document.addEventListener("DOMContentLoaded", function() {
+                document.getElementById('ThreadForm').addEventListener('submit', function(event) {
+                    var ThreadContent = document.getElementById('content');
+                    ThreadContent.value = ThreadContent.value.replace(/\n/g, '<br >');
+                });
+            });
+        </script>
+
+</body>
+</html>

@@ -7,10 +7,7 @@
         <link rel="stylesheet" type="text/css" href="general_toggle_buttons.css">
         
         <script src="https://cdn.jsdelivr.net/npm/marked@9.0.3/lib/marked.umd.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>
-        <link rel="stylesheet" type="text/css" href="sidebar.css">
-        <link rel="stylesheet" type="text/css" href="page_home.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript"></script>    
         <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
             tex2jax: {
@@ -71,24 +68,7 @@
     </head>
 
     <body>
-          <!-- Sidebar -->
-        <div style="position: absolute; left: 0%; top: 0%;">
-            <div class="sidebar">
-                <a href="page_home.php"><i class="fas fa-home"></i> Home</a>
-                <a href="popup_create_thread.php"><i class="fas fa-compass"></i> Quick Thread</a>
-                <div>
-                    <?php
-                    session_start();
-                    if (!isset($_SESSION['user_id'])) {
-                        echo '<a href="page_login.php"><i class="fas fa-sign-in-alt"></i> Login</a>';
-                    } else {
-                        echo '<a href="#" onclick="action_logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>';
-                    }
-                    session_abort();
-                    ?>
-                </div>
-            </div>
-        </div>
+        <!-- Sidebar -->
 
         <!-- Main body -->
         <div class="main-body">
