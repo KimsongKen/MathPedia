@@ -14,6 +14,11 @@
     </script>
     <script src="render.js"></script>
     <link rel="stylesheet" type="text/css" href="popup.css">
+    <link rel="stylesheet" type="text/css" href="page_home.css">
+    <link rel="stylesheet" type="text/css" href="main-body.css">
+    <link rel="stylesheet" type="text/css" href="sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
       /* Define a class for the fancy font */
       .fancy-font {
@@ -70,6 +75,25 @@
 </head>
 
 <body>
+  <!-- Sidebar -->
+  <div style="position: absolute; left: 0%; top: 0%;">
+    <div class="sidebar">
+        <a href="page_home.php"><i class="fas fa-home"></i> Home</a>
+        <a href="popup_create_thread.php"><i class="fas fa-compass"></i> Quick Thread</a>
+        <div>
+            <?php
+            session_start();
+            if (!isset($_SESSION['user_id'])) {
+                echo '<a href="page_login.php"><i class="fas fa-sign-in-alt"></i> Login</a>';
+            } else {
+                echo '<a href="#" onclick="action_logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>';
+            }
+            session_abort();
+            ?>
+        </div>
+    </div>
+</div>
+
 <div class="container">
   <form action="action_thread_post.php" method="post" id="ThreadForm" class="left-form">
       <div class="input-container">

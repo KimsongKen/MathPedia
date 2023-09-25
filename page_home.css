@@ -5,36 +5,9 @@ body, h1, h2, p, form, a {
     color: inherit;
 }
 
-
 body {
     background-color: rgb(250, 242, 235);
     font-family: Arial, sans-serif;
-}
-
-/* Sidebar styles */
-.sidebar {
-    background-color:  #925e46;
-    color: #fff;
-    width: 250px;
-    position: fixed;
-    height: 100%;
-    overflow: auto;
-    transition: 0.3s;
-    padding-top: 20px;
-}
-
-.sidebar a {
-    padding: 15px 20px;
-    text-align: left;
-    text-decoration: none;
-    font-size: 22px;
-    display: block;
-    transition: 0.3s;
-    color: #fff;
-}
-
-.sidebar a:hover {
-    background-color: #a3390c; /* Highlight color */
 }
 
 /* Main body styles */
