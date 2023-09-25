@@ -21,7 +21,13 @@ function insertThread($conn, $user_id, $title, $content) {
 }
 
 function manageTags($conn, $tagsArray, $thread_id) {
+    if(empty($tagsArray)) {
+        $tagsArray = ['general'];
+    }
     foreach ($tagsArray as $tag) {
+        if(empty($tag)) {
+            $tag = 'general';
+        }
         $stmt = $conn->prepare("SELECT id FROM tags WHERE name = ?");
         $stmt->bind_param("s", $tag);
         $stmt->execute();
