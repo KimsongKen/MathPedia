@@ -6,6 +6,7 @@ $site = "EduQuery";
 
 include __DIR__ . '/.functions.php';
 
+
 function fetchTags($conn) {
     $tags = array();
     $sql = "SELECT name FROM tags";
@@ -54,6 +55,27 @@ function fetchThreadTags($conn, &$threads) {
     } else {
         echo "Error fetching thread tags.";
     }
+}
+
+function checkUserUpvote($conn, $user_id, $thread_id) {
+    $stmt = $conn->prepare("SELECT vote_type FROM user_votes WHERE user_id = ? AND thread_id = ?");
+    $stmt->bind_param("ii", $user_id, $thread_id);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($vote_type);
+    if ($stmt->num_rows > 0) {
+        $stmt->fetch();
+        $stmt->close();
+
+        if ($vote_type === 'upvote') {
+            return true;
+        }
+    } else {
+        // Close the statement
+        $stmt->close();
+    }
+    
+    return false;
 }
 
 // Main Execution

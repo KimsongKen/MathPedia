@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Markdown Editor with Resizable Images</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked@9.0.3/lib/marked.umd.min.js"></script>
+  <style>
+    .resizable {
+      display: inline-block;
+      background: #f1f1f1;
+      border: 1px solid #ccc;
+      resize: both;
+      overflow: auto;
+    }
+    .resizable img {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <textarea id="editor"></textarea>
+  <button onclick="preview()">Preview</button>
+  <div id="content"></div>
+
+  <script>
+    function preview() {
+      const markdownString = document.getElementById('editor').value;
+      const html = marked.parse(markdownString);
+      const content = document.getElementById('content');
+      content.innerHTML = html;
+      makeImagesResizable();
+    }
+
+    function makeImagesResizable() {
+      document.querySelectorAll("#content img").forEach((img, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'resizable';
+        img.parentNode.replaceChild(wrapper, img);
+        wrapper.appendChild(img);
+        wrapper.style.width = localStorage.getItem(`img-${index}-width`) || 'auto';
+      });
+    }
+
+    // Save resized dimensions
+    document.addEventListener('mouseup', function() {
+      document.querySelectorAll(".resizable").forEach((div, index) => {
+        localStorage.setItem(`img-${index}-width`, div.style.width);
+      });
+    });
+  </script>
+</body>
+</html>

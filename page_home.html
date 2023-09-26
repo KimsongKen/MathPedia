@@ -125,7 +125,7 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Main body -->
     <div class="main-body">
         <!-- Threads -->
@@ -223,6 +223,9 @@
                     alert(data.error);
                 } else {
                     voteCountEl.textContent = data.newVoteCount;
+                    if (voteType === 'upvote') {
+                        button.classList.toggle('is-upvoted');
+                    }
                 }
             })
             .catch(error => {
@@ -239,6 +242,17 @@
         downvoteButtons.forEach(button => {
             button.addEventListener('click', function() {
                 handleVote(button, 'downvote');
+            });
+        });
+
+        upvoteButtons.forEach(button => {
+            // Initialize button state based on server-side data attribute
+            if (button.getAttribute('data-is-upvoted') === 'true') {
+                button.classList.add('is-upvoted');
+            }
+        
+            button.addEventListener('click', function() {
+                handleVote(button, 'upvote');
             });
         });
     });          

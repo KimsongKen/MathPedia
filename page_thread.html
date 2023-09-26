@@ -4,6 +4,9 @@
         <title>Thread: <?php echo htmlspecialchars($thread_title); ?></title>
         <link rel="stylesheet" type="text/css" href="sidebar.css">
         <link rel="stylesheet" type="text/css" href="main-body.css">
+        <link rel="stylesheet" type="text/css" href="page_home.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
         <link rel="stylesheet" type="text/css" href="general_toggle_buttons.css">
         
         <script src="https://cdn.jsdelivr.net/npm/marked@9.0.3/lib/marked.umd.min.js"></script>
@@ -54,9 +57,9 @@
             const outputElement = document.getElementById(outputElementId);
 
             // Use the custom renderer
-            console.log("Before replace:", inputElement.value);
-            console.log("Value being passed to marked.parse:", inputElement.value.replace(/^&quot;|&quot;$/g, ''));
-            const htmlContent = marked.parse(inputElement.value.replace(/^&quot;|&quot;$/g, ''));
+            const rawMarkdownContent = inputElement.value.replace(/^&quot;|&quot;$/g, '');
+            const cleanedMarkdown = rawMarkdownContent.replace(/<br >/g, '  \n');
+            const htmlContent = marked.parse(cleanedMarkdown);
             console.log("HTML Content:", htmlContent);
             outputElement.innerHTML = htmlContent;
             console.log("HTML content before MathJax:", outputElement.innerHTML);  // Debug line
@@ -66,9 +69,25 @@
         }
         </script>
     </head>
-
-    <body>
+    <body style="margin-bot: 20px;">
         <!-- Sidebar -->
+        <div>
+            <div class="sidebar">
+                <a href="page_home.php"><i class="fas fa-home"></i> Home</a>
+                <a href="popup_create_thread.php"><i class="fas fa-compass"></i> Quick Thread</a>
+                <div>
+                    <?php
+                    session_start();
+                    if (!isset($_SESSION['user_id'])) {
+                        echo '<a href="page_login.php"><i class="fas fa-sign-in-alt"></i> Login</a>';
+                    } else {
+                        echo '<a href="#" onclick="action_logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>';
+                    }
+                    session_abort();
+                    ?>
+                </div>
+            </div>
+        </div>
 
         <!-- Main body -->
         <div class="main-body">
@@ -110,6 +129,9 @@
                     echo '</p></div>';
                 }
             ?>
+        </div>
+        <div style="height: 2px;">
+
         </div>
     </body>
 </html>

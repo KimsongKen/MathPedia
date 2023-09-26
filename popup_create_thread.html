@@ -15,25 +15,24 @@
         });
     </script>
     <script src="render.js"></script>
+
     <link rel="stylesheet" type="text/css" href="popup.css">
     <link rel="stylesheet" type="text/css" href="page_home.css">
-    <link rel="stylesheet" type="text/css" href="main-body.css">
+    <!-- <link rel="stylesheet" type="text/css" href="main-body.css"> -->
     <link rel="stylesheet" type="text/css" href="sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Define a class for the fancy font */
+        .fancy-font {
+            font-family: 'Your Fancy Font', cursive; /* Replace 'Your Fancy Font' with the actual font name */
+        }
 
-<style>
-      /* Define a class for the fancy font */
-      .fancy-font {
-          font-family: 'Your Fancy Font', cursive; /* Replace 'Your Fancy Font' with the actual font name */
-      }
-
-      /* Style the h2 element with an underline */
-      h2.underline {
-          text-decoration: underline;
-          color: #a3390c;
-      }
-      
-  </style>  
+        /* Style the h2 element with an underline */
+        h2.underline {
+            text-decoration: underline;
+            color: #a3390c;
+        }
+    </style>  
    
    <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -74,37 +73,29 @@
           updateTagDisplay();
         }
       });          
-</script>
+    </script>
 </head>
 
 <body>
-  <div style="position:fixed; left: 0%; top: 0%;">
-    <div class="sidebar">
-        <a href="page_home.php"><i class="fas fa-home"></i> Home</a>
-        <a href="popup_create_thread.php"><i class="fas fa-compass"></i> Quick Thread</a>
-        <div>
-            <?php
-            session_start();
-            if (!isset($_SESSION['user_id'])) {
-                echo '<a href="page_login.php"><i class="fas fa-sign-in-alt"></i> Login</a>';
-            } else {
-                echo '<a href="#" onclick="action_logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>';
-            }
-            session_abort();
-            ?>
+    <div style="position:fixed; left: 0%; top: 0%;">
+        <div class="sidebar">
+            <a href="page_home.php"><i class="fas fa-home"></i> Home</a>
+            <a href="popup_create_thread.php"><i class="fas fa-compass"></i> Quick Thread</a>
+            <div>
+                <?php
+                session_start();
+                if (!isset($_SESSION['user_id'])) {
+                    echo '<a href="page_login.php"><i class="fas fa-sign-in-alt"></i> Login</a>';
+                } else {
+                    echo '<a href="#" onclick="action_logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>';
+                }
+                session_abort();
+                ?>
+            </div>
         </div>
     </div>
-</div>
 
     <script>
-        function updatePreviewAndMathJax(inputElementId, outputElementId) {
-            var inputElement = document.getElementById(inputElementId);
-            var outputElement = document.getElementById(outputElementId);
-
-            outputElement.innerHTML = inputElement.value;
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, outputElementId]);
-        }
-
         document.addEventListener('DOMContentLoaded', function () {
             var contentArea = document.getElementById('content');
             var titleArea = document.getElementById('title');
@@ -124,63 +115,65 @@
         });
     </script>
 
-<script>
-    // Function to update MathJax rendering
-    function updateMathJax() {
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-    }
+    <script>
+        // Function to update MathJax rendering
+        function updateMathJax() {
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+        }
 
-    // Add event listeners to update MathJax when content or title changes
-    document.addEventListener('DOMContentLoaded', function () {
-        var contentArea = document.getElementById('content');
-        var titleArea = document.getElementsByName('title')[0];
-        
-        contentArea.addEventListener('input', updateMathJax);
-        titleArea.addEventListener('input', updateMathJax);
-    });
-</script>
-<div class="container">
-  <form action="action_thread_post.php" method="post" id="ThreadForm" class="left-form">
-      <div class="input-container">
-          <input
-              type="text"
-              id="title"
-              name="title"
-              placeholder="title..."
-              required />
-          <select id="tagDropdown" name="tagDropdown">
-              <option value="" disabled selected>Select tag</option>
-              <?php
-              foreach ($tags as $tag) {
-                  echo '<option value="' . $tag . '">' . ucfirst($tag) . '</option>';
-              }
-              ?>
-          </select>
-      </div>
-
-      <div id="selectedTags"></div>
-      <input type="hidden" id="finalTags" name="tags">
-      <textarea
-          id="content"
-          name="content"
-          placeholder="more informations..."
-          required>
-      </textarea>
-  </form>
-
-  <div>
-    <h2 class="underline fancy-font">Preview</h2>
-  </div>
-  <div
-      id="contentPreview"
-      class="right-preview"></div>
-
-  </div>
-</div>
+        // Add event listeners to update MathJax when content or title changes
+        document.addEventListener('DOMContentLoaded', function () {
+            var contentArea = document.getElementById('content');
+            var titleArea = document.getElementsByName('title')[0];
+            
+            contentArea.addEventListener('input', updateMathJax);
+            titleArea.addEventListener('input', updateMathJax);
+        });
+    </script>
 
 
-<input name="post" type="submit" value="post"/>
-</form>
+    <div style="width: 1000px; height: 600px; margin-top: 20px; margin-left: 100px;">
+        <div>
+            <form action="action_thread_post.php" method="post" id="ThreadForm" class="left-form" style="height: 500px;">
+            <div class="input-container">
+                <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="title..."
+                    required />
+                <select id="tagDropdown" name="tagDropdown">
+                    <option value="" disabled selected>Select tag</option>
+                    <?php
+                    foreach ($tags as $tag) {
+                        echo '<option value="' . $tag . '">' . ucfirst($tag) . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+    
+            <div id="selectedTags"></div>
+            <input type="hidden" id="finalTags" name="tags">
+            <textarea
+                id="content"
+                name="content"
+                placeholder="more informations..."
+                required style="height: 400px;"></textarea>
+        </div>
+        <input name="post" type="submit" value="post"/>
+        </form>
+        </div>
+    
+        <div style="position: absolute; right: 100px; display: inline;">
+            <div>
+                <h2 class="underline fancy-font">Preview</h2>
+            </div>
+            <div
+                id="contentPreview"
+                class="right-preview" style="height: 600px; width: 500px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
 <script>
             // Ensure the DOM is fully loaded
             document.addEventListener("DOMContentLoaded", function() {

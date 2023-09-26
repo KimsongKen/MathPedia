@@ -33,10 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt_checkEmailVerified->bind_result($email_verified);
     $stmt_checkEmailVerified->fetch();
 
-    if ($stmt_checkEmailVerified->num_rows>0 && $email_verified) { # email is used
+    if ($stmt_checkEmailVerified->num_rows>0 && $email_verified) { 
+        # email is used
         echo 'Email is already registered';
+        delayHome();
         exit(2);
     } 
+    
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
     if ($stmt_checkEmailVerified->num_rows>0) {
         $sql = "UPDATE USER SET username=?, password_hash=?, occupation=?, dateOfBirth=? WHERE email=?";
@@ -48,8 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $token = bin2hex(random_bytes(50));
         $mail = new PHPMailer(true);
 
-        // TABLE: USER... 
-        $sql = "INSERT INTO USER (username, email, password_hash, occupation, dateOfBirth) VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE";
+        $sql = "INSERT INTO USER (username, email, password_hash, occupation, dateOfBirth) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssssi", $username, $email, $password_hash, $occupation, $dateOfBirth);
         
@@ -105,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     }
+    delayHome();
 }
 
 ?>

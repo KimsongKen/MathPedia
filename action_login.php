@@ -56,4 +56,5 @@ try {
 } finally {
     $conn->close();
 }
+delayHome();
 ?>
